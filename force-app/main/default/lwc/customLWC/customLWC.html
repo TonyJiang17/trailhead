@@ -1,0 +1,70 @@
+<template>
+    <lightning-card title="Recent News for the Account" icon-name="custom:custom14">
+        <lightning-layout multiple-rows="true" vertical-align="end">
+            <lightning-layout-item size="12" small-device-size="4" medium-device-size="2" large-device-size="2" padding="around-small">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                            <lightning-combobox title="searchDate" 
+                                                label="Search from Date"
+                                                value={fromUIValue}
+                                                placeholder="-Select-"
+                                                options={fromOptions}
+                                                onchange={handleFromOption}>
+                            </lightning-combobox>
+                    </div>
+                </div> 
+            </lightning-layout-item>
+            <lightning-layout-item size="12" small-device-size="4" medium-device-size="2" large-device-size="2" padding="around-small">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                            <lightning-combobox title="MaxNumArticles" 
+                                                label="Number of articles"
+                                                value={maxNumArticles}
+                                                placeholder="-Select-"
+                                                options={maxArticlesOptions}
+                                                onchange={handleMaxNumArticlesOption}>
+                            </lightning-combobox>
+                    </div>
+                </div> 
+            </lightning-layout-item>
+            <lightning-layout-item size="12" small-device-size="4" medium-device-size="2" large-device-size="2" padding="around-small">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                            <lightning-combobox title="wantNameInTitle" 
+                                                label="Account Name in Article Title?"
+                                                value={wantNameInTitle}
+                                                placeholder="-Select-"
+                                                options={nameInTitleOptions}
+                                                onchange={handleWantNameInTitle}>
+                            </lightning-combobox>
+                    </div>
+                </div> 
+            </lightning-layout-item>
+            <lightning-layout-item size="12" small-device-size="2" medium-device-size="2" large-device-size="2" padding="around-small">
+                <lightning-button title="Fetch" 
+                                    label="Fetch News" 
+                                    variant="brand" 
+                                    onclick={getNews}></lightning-button>
+            </lightning-layout-item>    
+        </lightning-layout>
+        <template if:true={resultArticles}>
+            <div class="slds-m-around_medium">
+                <div style="font-size: 25px">
+                    <h2>Recent Popular News Articles about <b>{accountName}</b></h2>
+                </div><br/>
+                <template for:each={resultArticles} for:item="resultArticle">
+                    <div style="font-size: 18px" key = {resultArticle.title}>
+                        <lightning-formatted-url value={resultArticle.url} label={resultArticle.title} target="_blank"></lightning-formatted-url>
+                        <div style="font-size: 13px">{resultArticle.description}</div>
+                        <div style="font-size: 10px">Source: {resultArticle.source.name}</div><br/>
+                    </div>
+                </template>
+                <lightning-input type = "number" label = "which article would you like to post to chatter?" onchange = {handleArticleToChatter}></lightning-input>
+                    <lightning-button title="Fetch" 
+                                    label="Send to Chatter" 
+                                    variant="brand" 
+                                    onclick={createPost}></lightning-button>
+            </div>
+        </template>
+    </lightning-card>
+</template>
